@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             ProvinceSeeder::class,
             PlaceSeeder::class,
+            TravelExperienceSeeder::class,
         ]);
     }
 }
