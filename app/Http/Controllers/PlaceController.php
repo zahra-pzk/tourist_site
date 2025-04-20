@@ -2,47 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Place;
 use Illuminate\Http\Request;
 
 class PlaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        return response()->json(
+            Place::with(['province.country'])
+                ->withAvg('experiences as average_rating', 'rating')
+                ->withCount('experiences')
+                ->get()
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name'        => 'required|string|max:150',
+            'description' => 'nullable|string',
+            'province_id' => 'required|exists:provinces,id',
+            'image_url'   => 'nullable|url',
+        ]);
+
+        $place = Place::create($validated);
+
+        return response()->json([
+            'message' => 'مکان دیدنی با موفقیت ثبت شد.',
+            'data' => $place,
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Place $place)
     {
-        //
+        return response()->json(
+            $place->load(['province.country', 'experiences.user'])
+                  ->loadAvg('experiences', 'rating')
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Place $place)
     {
-        //
-    }
+        $validated = $request->validate([
+            'name'        => 'required|string|max:150',
+            'description' => 'nullable|string',
+            'province_id' => 'required|exists:provinces,id',
+            'image_url'   => 'nullable|url',
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+        $place->update($validated);
+
+        return response()->json([
+            'message' => 'مکان دیدنی با موفقیت ویرایش شد.',
+            'data' => $place,
+        ]);
+    }
+    public function destroy(Place $place)
     {
-        //
+        $place->delete();
+
+        return response()->json(['message' => 'مکان دیدنی حذف شد.']);
     }
 }
