@@ -32,8 +32,8 @@ class TravelExperienceController extends Controller
             }
         }
         $experience = TravelExperience::create([
-            'place_id'         => $validated['place_id'],
-            'user_id'          => $validated['user_id'],
+            'place_id'        => $request->place_id,
+            'user_id'         => auth()->id(),
             'has_traveled'     => $validated['has_traveled'],
             'travel_date'      => $validated['travel_date'] ?? null,
             'positive_points'  => $validated['positive_points'] ?? [],
