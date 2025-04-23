@@ -12,9 +12,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'name'                  => 'required|string|max:255',
+            'email'                 => 'required|string|email|unique:users',
+            'password'              => 'required|string|min:8|confirmed',
         ]);
 
         $user = User::create([
@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return response()->json(['message' => 'ثبت‌نام با موفقیت انجام شد.']);
+        return response()->json(['message' => 'ثبت‌نام با موفقیت انجام شد.'], 201);
     }
 
     public function login(Request $request)
@@ -35,16 +35,20 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'ورود موفقیت‌آمیز بود.']);
+        if (! Auth::attempt($credentials)) {
+            return response()->json(['message' => 'اطلاعات وارد شده نادرست است.'], 401);
         }
 
-        return response()->json(['message' => 'اطلاعات وارد شده نادرست است.'], 401);
+        return response()->json(['message' => 'ورود موفقیت‌آمیز بود.']);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::logout();
-        return response()->json(['message' => 'خروج با موفقیت انجام شد.']);
+        $request->user()->currentAccessToken()->delete();
+    
+        return response()->json([
+            'message' => 'خروج با موفقیت انجام شد.',
+        ]);
     }
+    
 }
