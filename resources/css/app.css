@@ -6,6 +6,441 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: 'Vazirmatn', ui-sans-serif, system-ui;
 }
+
+/* ===== General Modal Layering ===== */
+#reviewBackdrop {
+  z-index: 1040;
+  backdrop-filter: blur(5px);
+}
+#reviewModal {
+  z-index: 1050;
+  direction: rtl;
+  font-family: 'Vazirmatn', sans-serif;
+  background: linear-gradient(135deg, #ffffff, #f0f4ff);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+#reviewBackdrop.show {
+  animation: fadeIn 0.4s forwards;
+}
+#reviewModal.show {
+  animation: popIn 0.5s forwards;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes popIn {
+  from { transform: translate(-50%, -50%) scale(0.8) rotateY(45deg); opacity: 0; }
+  to   { transform: translate(-50%, -50%) scale(1) rotateY(0deg); opacity: 1; }
+}
+@keyframes slideOutRight {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(100%); }
+}
+@keyframes slideUpFade {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-20px); }
+}
+.slide-out-right {
+  animation: slideOutRight 0.5s forwards;
+}
+.slide-up-fade {
+  animation: slideUpFade 0.5s forwards;
+}
+
+/* ===== Interactive Elements ===== */
+.question-step {
+  animation: fadeIn 0.4s ease;
+  background: linear-gradient(to left, #ffffff, #e9f1ff);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+}
+
+.question-step h5 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
+  }
+    .form-check:hover {
+        background-color: rgba(13, 110, 253, 0.1);
+  }
+
+.form-check-input {
+  margin-left: 0.75rem;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  accent-color: #0d6efd;
+}
+.form-check-input:checked {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(13,110,253,0.4);
+}
+
+.form-check-label {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #0d6efd, #4f89ff);
+  border: none;
+}
+.btn-light {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+#starRating {
+    direction: ltr;
+    display: flex;
+    gap: 0.25rem;
+  }
+  #starRating i {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #ddd;
+    transition: all 0.3s ease;
+  }
+  #starRating:hover i {
+    color: #ffc107;
+    transform: scale(1.1);
+  }
+  #starRating i.bi-star-fill {
+  color: #ffc107;
+  transform: scale(1.2) rotate(-5deg);
+}
+
+#starRating i.active,
+#starRating i.active ~ i {
+  color: #ffc107;
+}
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+.step-nav button {
+  min-width: 100px;
+}
+
+/* ===== پیام تشکر ===== */
+.thank-you {
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+.thank-you h5 {
+  font-weight: bold;
+  color: #2c3e50;
+}
+.thank-you i {
+  font-size: 2rem;
+  color: #28a745;/* فاصله‌ی بین آیکون و متن */
+  .form-check {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* برای RTL */
+    gap: 0.5rem;
+    cursor: pointer; /* کل سطر قابل کلیک */
+  }
+  
+  /* ورودی غیرفعال تا label کل ناحیه را بگیرد */
+  .form-check-input {
+    pointer-events: none;
+  }
+  
+  /* استایل لِیبل */
+  .form-check-label {
+    user-select: none;
+  }
+  
+  /* ستاره‌ها */
+  #starRating {
+    display: flex;
+    gap: 0.5rem;
+    perspective: 600px; /* برای افکت 3D */
+  }
+  #starRating i {
+    font-size: 2rem;
+    transition: transform 0.2s ease, color 0.3s ease;
+    color: #ddd;
+  }
+  #starRating i.hovered,
+  #starRating i.bi-star-fill {
+    color: #ffc107;
+    transform: scale(1.3) rotateX(20deg) translateZ(5px);
+  }
+  
+  /* ترنزیشن کارت سوال */
+  .question-step {
+    animation: slide-up-fade 0.4s ease forwards;
+    transform-origin: top center;
+  }
+  
+  /* دکمه‌ها */
+  .btn-primary {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(13,110,253,0.4);
+  }
+  
+  /* لایه مودال */
+  #reviewBackdrop.show {
+    backdrop-filter: blur(8px);
+  }
+  #reviewModal {
+    perspective: 800px;
+  }
+  #reviewModal.show {
+    transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+  }
+  
+}
+.question-step {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  
+  .question-step:hover {
+    transform: rotateY(5deg) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  }
+  
+  .btn {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: all 0.6s;
+  }
+  
+  .btn:hover::before {
+    left: 100%;
+  }
+  /* انیمیشن و افکت پیشرفته برای عناصر */
+.question-step {
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .question-step:hover {
+    transform: 
+      rotateX(3deg) 
+      rotateY(2deg) 
+      scale(1.03);
+    box-shadow: 
+      0 20px 50px rgba(0,0,0,0.15), 
+      0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  /* افکت گرادینت و شناور برای دکمه‌ها */
+  .btn-primary {
+    background: linear-gradient(135deg, #0d6efd, #4f89ff);
+    background-size: 200% 200%;
+    animation: gradientShift 5s ease infinite;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center, 
+      rgba(255,255,255,0.3) 0%, 
+      transparent 70%
+    );
+    transform: rotate(-45deg);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .btn-primary:hover::before {
+    opacity: 1;
+  }
+  
+  @keyframes gradientShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+  
+  /* انیمیشن برای ستاره‌ها */
+  #starRating i {
+    transition: 
+      transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+      color 0.3s ease;
+  }
+  
+  #starRating i:hover {
+    transform: 
+      scale(1.3) 
+      rotate(10deg);
+  }
+  
+  /* افکت ویبریشن برای انتخاب */
+  .form-check-input:checked {
+    animation: 
+      checkboxPulse 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  @keyframes checkboxPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  body {
+    cursor: default;
+  }
+  
+  a, button, .form-check, #starRating i {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  a:hover, button:hover, .form-check:hover, #starRating i:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+  #reviewSteps {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  
+  .step-transition-enter {
+    opacity: 0;
+    transform: translateX(50px) rotateY(-20deg);
+  }
+  
+  .step-transition-enter-active {
+    opacity: 1;
+    transform: translateX(0) rotateY(0);
+  }
+  
+  .step-transition-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .step-transition-exit-active {
+    opacity: 0;
+    transform: translateX(-50px) rotateY(20deg);
+  }
+  #reviewModal {
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+  }
+  
+  #reviewModal:hover {
+    transform: 
+      perspective(1000px)
+      rotateX(2deg)
+      rotateY(3deg)
+      translateZ(20px);
+    box-shadow: 
+      0 30px 60px rgba(0,0,0,0.2),
+      0 15px 30px rgba(0,0,0,0.1);
+  }
+  
+  .question-step {
+    backface-visibility: hidden;
+    transform-origin: center center;
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (max-width: 576px) {
+    #reviewModal {
+      width: 95%;
+      margin: 0 auto;
+      transform: translateY(-50%);
+    }
+  
+    .form-check {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+  @media (max-width: 768px) {
+    #reviewModal {
+      width: 95%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 15px;
+      padding: 1rem;
+    }
+  
+    .form-check {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      border-radius: 10px;
+      background-color: rgba(255,255,255,0.7);
+    }
+  
+    #starRating {
+      justify-content: center;
+    }
+  
+    #starRating i {
+      font-size: 2.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .step-nav {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    .step-nav button {
+      width: 100%;
+    }
+  }
+  
