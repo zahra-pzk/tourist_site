@@ -10,16 +10,13 @@ return new class extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('عنوان مکان');
-            $table->text('description')->nullable()->comment('توضیحات مکان');
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->foreignId('province_id')
                   ->constrained()
-                  ->onDelete('cascade')
-                  ->comment('شناسه استان');
-            $table->string('image_url')->nullable()->comment('نشانی تصویر');
-            $table->string('google_street_view_url')
-                  ->nullable()
-                  ->comment('URL نمای خیابان گوگل');
+                  ->onDelete('cascade');
+            $table->string('image_url')->nullable();
+            $table->string('google_street_view_url')->nullable();
             $table->timestamps();
         });
     }

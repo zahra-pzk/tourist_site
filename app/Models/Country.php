@@ -20,4 +20,5 @@ class Country extends Model
     {
         return $this->hasManyThrough(Place::class, Province::class);
     }
+    
 }
