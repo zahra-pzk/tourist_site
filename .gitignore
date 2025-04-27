@@ -37,6 +37,7 @@ auth.json
 /storage/*.key
 /storage/pail
 /vendor
+/database/*.sqlite
 .env
 .env.backup
 .env.production
