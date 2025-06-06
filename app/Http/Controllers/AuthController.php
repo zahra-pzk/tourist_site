@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -25,7 +24,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return response()->json(['message' => 'ثبت‌نام با موفقیت انجام شد.']);
+        return response()->json(['message' => 'ثبت‌نام با موفقیت انجام شد.'], 201);
     }
 
     public function login(Request $request)
@@ -35,16 +34,34 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'ورود موفقیت‌آمیز بود.']);
+        if (!Auth::attempt($credentials)) {
+            return response()->json(['message' => 'اطلاعات وارد شده نادرست است.'], 401);
         }
 
-        return response()->json(['message' => 'اطلاعات وارد شده نادرست است.'], 401);
+        $user = Auth::user();
+        $token = $user->createToken('API Token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'ورود موفقیت‌آمیز بود.',
+            'token'   => $token,
+            'user'    => $user,
+        ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::logout();
-        return response()->json(['message' => 'خروج با موفقیت انجام شد.']);
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'خروج با موفقیت انجام شد.',
+        ]);
+    }
+
+    public function profile()
+    {
+        return response()->json([
+            'message' => 'مشخصات کاربر دریافت شد.',
+            'user'    => auth()->user(),
+        ]);
     }
 }

@@ -11,9 +11,12 @@ return new class extends Migration
         Schema::create('places', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->foreignId('province_id')->constrained()->cascadeOnDelete();
-            $table->string('image')->nullable();
+            $table->text('description')->nullable();
+            $table->foreignId('province_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+            $table->string('image_url')->nullable();
+            $table->string('google_street_view_url')->nullable();
             $table->timestamps();
         });
     }
