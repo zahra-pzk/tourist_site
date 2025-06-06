@@ -18,3 +18,4 @@ Route::get('\static\{filename}', function ($filename) {
         'Content-Type' => File::mimeType($fullPath),
     ]);
 });
+Route::view('/test-review', 'test-review');
