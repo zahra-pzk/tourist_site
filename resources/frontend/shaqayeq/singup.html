@@ -1,29 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>ثبت نام</title>
     <link rel="stylesheet" href="./css/signup.css">
 </head>
-<body>
+<body dir="rtl">
 
     <div class="signup-container">
-        <h2>Create an Account</h2>
+        <h2>ایجاد حساب کاربری</h2>
         <form>
-            <input type="text" placeholder="Full Name" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <input type="password" placeholder="Confirm Password" required>
-            <button type="submit" class="signup-btn">Sign Up</button>
+            <input type="text" placeholder="نام و نام‌خانوادگی" required>
+            <input type="email" placeholder="ایمیل" required>
+            <input type="password" placeholder="رمزعبور" required>
+            <input type="password" placeholder="تایید رمز" required>
+            <button type="submit" class="signup-btn">ایجاد حساب</button>
         </form>
-        <div class="divider">or</div>
+        <div class="divider">یا</div>
         <button class="google-btn">
             <img src="./img/google.jpg" alt="Google Logo">
-            Sign up with Google
+            ثبت نام با گوگل
         </button>
-        <p class="login-link">Already have an account? <a href="login.html">Sign in</a></p>
+        <p class="login-link">حساب کاربری دارید؟ <a href="/login">ورود به حساب</a></p>
     </div>
+<script>
+    document.querySelector('.signup-btn').addEventListener('click', function () {
+        let email = document.querySelector('input[placeholder="ایمیل"]').value;
+        let password = document.querySelector('input[placeholder="رمز عبور"]').value;
+
+        fetch('http://127.0.0.1:8000/api/signup-store', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                Swal.fire('موفق!', data.message, 'success');
+            } else {
+                Swal.fire('خطا!', data.message, 'error');
+            }
+        })
+        .catch(err => {
+            Swal.fire('خطا!', 'مشکلی در ثبت‌نام پیش آمد', 'error');
+        });
+    });
+</script>
 
 </body>
 </html>

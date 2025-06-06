@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Route;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         View::share('appName', config('app.name'));
         $this->registerCustomMacros();
+        app()->bind('path.public', function() {
+        return resource_path('frontend/shaqayeq');
+    });
+
     }
 
     protected function registerCustomMacros(): void

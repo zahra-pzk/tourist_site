@@ -99,4 +99,10 @@ class PlaceController extends Controller
             'street_view_url' => $url,
         ], 200);
     }
+    public function byCity(\App\Models\City $city)
+{
+    $places = $city->places()->select('id', 'name')->get();
+    return response()->json($places);
+}
+
 }
