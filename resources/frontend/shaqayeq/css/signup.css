@@ -1,11 +1,11 @@
 @font-face {
     font-family: "font";
-    src: url(../font/LeagueSpartan-VF.ttf);
+    src: url(../font/yekan.ttf);
   }
 
 body {
-    font-family: "font";
-    background: url('../img/photo\ -\ one.jpeg') center/cover no-repeat; 
+    font-family: "font", sans-serif !important;
+    background-color: #fffef6;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,7 +41,7 @@ input {
 .signup-btn {
     width: 100%;
     padding: 12px;
-    background-color: rgb(57, 155, 190);
+    background-color:rgb(240, 142, 142);
     color: white;
     border: none;
     border-radius: 5px;
@@ -52,7 +52,7 @@ input {
 }
 
 .signup-btn:hover {
-    background-color:#555;
+    background-color:#1e1e1f;
 }
 
 .divider {
@@ -83,7 +83,7 @@ input {
 }
 
 .google-btn:hover {
-    background-color: #f4f1eb;
+    background-color: #d7d7d7;
 }
 
 .login-link {
@@ -92,7 +92,7 @@ input {
 }
 
 .login-link a {
-    color: #007BFF;
+    color: rgb(255, 0, 0);
     text-decoration: none;
 }
 
@@ -113,4 +113,12 @@ form input, form button {
     margin: 10px 0; 
     border-radius: 5px; 
     box-sizing: border-box; 
+}
+
+input, textarea, select {
+    font-family: "font", sans-serif !important;
+}
+
+button {
+    font-family: "font", sans-serif !important;
 }
